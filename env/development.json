@@ -1,0 +1,10 @@
+{
+  "ENVIRONMENT": "development",
+  "API_BASE_URL": "https://api-dev.example.com",
+  "API_KEY": "dev_api_key_here",
+  "DEBUG_MODE": "true",
+  "ANALYTICS_ENABLED": "false",
+  "APP_NAME": "Flutter Base Project (Dev)",
+  "CONNECTION_TIMEOUT": "30000",
+  "RECEIVE_TIMEOUT": "30000"
+}

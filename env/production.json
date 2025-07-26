@@ -1,0 +1,10 @@
+{
+  "ENVIRONMENT": "production",
+  "API_BASE_URL": "https://api.example.com",
+  "API_KEY": "production_api_key_here",
+  "DEBUG_MODE": "false",
+  "ANALYTICS_ENABLED": "true",
+  "APP_NAME": "Flutter Base Project",
+  "CONNECTION_TIMEOUT": "20000",
+  "RECEIVE_TIMEOUT": "20000"
+}
