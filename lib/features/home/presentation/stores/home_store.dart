@@ -1,4 +1,4 @@
-import '../../../../global/app_core/store/store_imports.dart';
+import '../../../../global/app_core/app_core.dart';
 import '../../domain/models/home_image.dart';
 import '../../domain/usecases/home_usecase.dart';
 
