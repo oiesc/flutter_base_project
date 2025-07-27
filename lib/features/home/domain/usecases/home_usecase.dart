@@ -44,13 +44,18 @@ class HomeUsecase {
   Future<Either<AppGenericFailure, HomeImage>> loadHomeData() async {
     try {
       final data = await homeRepository.loadHomeData();
-      data.fold((failure) => failure, (homeImage) {
-        if (homeImage.url.isEmpty) {
-          return Left(AppGenericFailure(message: 'Received empty image URL'));
-        }
-        return Right(homeImage);
-      });
-      return data;
+
+      // Use fold to handle the Either result
+      return data.fold(
+        (failure) => Left(failure), // Return the original failure
+        (homeImage) {
+          // Validate the home image data
+          if (homeImage.url.isEmpty) {
+            return Left(AppGenericFailure(message: 'Received empty image URL'));
+          }
+          return Right(homeImage); // Return success with valid data
+        },
+      );
     } catch (error) {
       return Left(AppGenericFailure(message: 'Failed to load home data', error: error));
     }

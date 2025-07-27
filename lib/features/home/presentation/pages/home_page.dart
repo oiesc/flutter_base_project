@@ -71,19 +71,38 @@ class _HomePageState extends State<HomePage> with HomePageMixin<HomePage> {
                   _LoadImageWidget(
                     onPressed: () => homeStore.loadData(),
                   ),
-                  if (state is LoadingState<HomeImage>) const CircularProgressIndicator(),
-                  if (state is SuccessState<HomeImage>)
-                    Image.network(
-                      state.data.url,
-                      width: 200,
-                      height: 200,
-                      fit: BoxFit.cover,
-                    ),
+                  _ImageWidget(state: homeStore.state),
                 ],
               ),
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class _ImageWidget extends StatelessWidget {
+  final AppState<HomeImage> state;
+  const _ImageWidget({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    return state.when(
+      idle: () => const SizedBox(),
+      loading: () => Padding(
+        padding: const EdgeInsets.all(AppConstants.mediumSpacing),
+        child: const CircularProgressIndicator(),
+      ),
+      success: (data) => Image.network(
+        data.url,
+        width: 200,
+        height: 200,
+        fit: BoxFit.cover,
+      ),
+      error: (error) => Icon(
+        Icons.error,
+        color: Theme.of(context).colorScheme.error,
       ),
     );
   }
