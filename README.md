@@ -759,16 +759,8 @@ void setupFeatureDependencies() {
 
 ## 📄 License
 
-This project is under the MIT license. See the [LICENSE](LICENSE) file for more details.
-
-## 🙋‍♂️ Support
-
-If you encounter any problems or have questions:
-
-1. Check the [existing Issues](https://github.com/your-user/flutter_base_project/issues)
-2. Create a new Issue if necessary
-3. Consult the Flutter documentation
+This project is under the MIT license.
 
 ---
 
-**Developed by <a href="https://github.com/oiesc">Emanoel Aleixo</a> with ❤️ using Flutter**
+**Developed by <a href="https://github.com/oiesc">oiEsc</a> with ❤️ using Flutter**
