@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'app/app.dart';
 import 'global/constants/app_config.dart';
+import 'global/di/app_dependency_injector.dart';
 import 'global/settings/app_settings_store.dart';
 import 'global/utils/app_info.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  AppDependencyInjector.setup();
 
   await AppInfo.initialize();
 

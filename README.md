@@ -1,6 +1,6 @@
 # Flutter Base Project
 
-A Flutter base project built with **Clean Architecture**, **MVVM**, and **custom state management**. This project serves as a template for future Flutter projects, providing a scalable and well-organized structure.
+A Flutter base project built with **Clean Architecture**, **MVVM**, and **custom state management**. This project serves as a robust template for future Flutter projects, providing a scalable, well-organized, and production-ready structure.
 
 ## 🏗️ Architecture
 
@@ -19,35 +19,63 @@ lib/
 ├── app/                          # Main application configuration
 │   └── app.dart                  # Main app widget
 ├── features/                     # Feature modules
-│   └── home/                     # Example feature (Home)
-│       ├── domain/               # Domain layer
-│       │   ├── enums/           # Enumerations
-│       │   ├── failures/        # Failure classes
-│       │   ├── models/          # Domain models
-│       │   └── usecases/        # Use cases
-│       ├── infrastructure/       # Infrastructure layer
-│       │   ├── repositories/    # Repository implementations
-│       │   └── settings/        # Specific configurations
-│       ├── utils/               # Feature utilities
-│       └── presentation/        # Presentation layer
-│           ├── stores/          # State management stores
-│           ├── components/      # Reusable components
-│           ├── pages/           # Feature pages
-│           ├── mixins/          # Reusable mixins
-│           └── widgets/         # Specific widgets
+│   ├── home/                     # Home feature
+│   │   ├── domain/               # Domain layer
+│   │   │   ├── enums/           # Enumerations
+│   │   │   ├── failures/        # Failure classes
+│   │   │   ├── models/          # Domain models
+│   │   │   └── usecases/        # Use cases
+│   │   ├── infrastructure/       # Infrastructure layer
+│   │   │   ├── repositories/    # Repository implementations
+│   │   │   └── settings/        # Specific configurations
+│   │   ├── utils/               # Feature utilities
+│   │   └── presentation/        # Presentation layer
+│   │       ├── stores/          # State management stores
+│   │       ├── components/      # Reusable components
+│   │       ├── pages/           # Feature pages
+│   │       ├── mixins/          # Reusable mixins
+│   │       └── widgets/         # Specific widgets
+│   └── settings/                # Settings feature
+│       └── pages/               # Settings pages
 └── global/                      # Shared modules
     ├── app_core/               # Application core
     │   ├── failures/           # Global failure classes
     │   └── store/              # State management system
     ├── constants/              # Global constants
     ├── l10n/                   # Internationalization
+    ├── network/                # HTTP client configuration
+    ├── services/               # Global services
+    │   └── app_storage/        # Local storage service
+    ├── settings/               # Global settings management
     ├── themes/                 # Application themes
     ├── router/                 # Route configuration
-    ├── utils/                  # Global utilities
-    └── pages/                  # Global pages
+    └── utils/                  # Global utilities
 ```
 
 ## 🎯 Key Features
+
+### ✅ HTTP Client & Networking
+- **AppHttp**: Dio-based HTTP client with global configuration
+- Request/response interceptors
+- Automatic timeout configuration
+- Error handling and retries
+
+### ✅ Local Storage
+- **AppStorage**: Unified storage interface using SharedPreferences
+- Type-safe storage operations
+- Centralized storage keys management
+- Easy data persistence
+
+### ✅ App Information
+- **AppInfo**: Package information utilities
+- Version management
+- Build number access
+- App name configuration
+
+### ✅ Logging System
+- **AppLogger**: Centralized logging system
+- Environment-based log levels
+- Structured logging support
 
 ### ✅ Custom State Management
 - **BaseStore**: Base class for stores with state pattern
@@ -69,6 +97,13 @@ lib/
 - **GoRouter** for declarative navigation
 - Typed and organized routes
 - 404 error handling
+- Deep linking support
+
+### ✅ Settings Management
+- **AppSettingsStore**: Global settings management
+- Theme mode persistence
+- Locale preferences
+- Type-safe settings operations
 
 ### ✅ Environment Configuration
 - Configuration using --dart-define-from-file (no external dependencies)
@@ -85,7 +120,7 @@ lib/
 
 ### Prerequisites
 - Flutter SDK 3.8.1+
-- Dart 3.0+
+- Dart 3.8+
 - VS Code (recommended for launch configurations)
 
 ### Installation
@@ -171,8 +206,18 @@ dependencies:
   go_router: ^14.6.2     # Navigation
   get_it: ^8.0.2         # Dependency injection
   shared_preferences: ^2.3.3  # Local persistence
+  path_provider: ^2.1.5  # File system paths
   dio: ^5.7.0            # HTTP client
   logger: ^2.5.0         # Logging
+  package_info_plus: ^8.1.1 # App information
+  json_annotation: ^4.9.0    # JSON serialization
+  cupertino_icons: ^1.0.8    # iOS style icons
+
+dev_dependencies:
+  flutter_lints: ^5.0.0      # Linting rules
+  build_runner: ^2.4.13      # Code generation
+  json_serializable: ^6.8.0  # JSON code generation
+  mockito: ^5.4.4            # Mocking for tests
 ```
 
 ## 🌍 Environment Configuration
@@ -216,6 +261,54 @@ final timeout = AppConfig.connectionTimeout;
 
 // Debug - print all configurations
 AppConfig.printConfig();
+```
+
+## 🔧 Global Services
+
+### HTTP Client (AppHttp)
+
+```dart
+import 'package:flutter_base_project/global/network/app_http.dart';
+
+final http = AppHttp();
+
+// GET request
+final response = await http.get('/users');
+
+// POST request with data
+final response = await http.post('/users', data: {
+  'name': 'John Doe',
+  'email': 'john@example.com',
+});
+```
+
+### Local Storage (AppStorage)
+
+```dart
+import 'package:flutter_base_project/global/services/app_storage/app_storage.dart';
+import 'package:flutter_base_project/global/services/app_storage/app_storage_keys.dart';
+
+final storage = AppStorage.i;
+
+// Store data
+await storage.setString(AppStorageKeys.userToken, 'your_token');
+await storage.setBool(AppStorageKeys.isFirstLaunch, false);
+
+// Retrieve data
+final token = storage.getString(AppStorageKeys.userToken);
+final isFirstLaunch = storage.getBool(AppStorageKeys.isFirstLaunch);
+```
+
+### App Information (AppInfo)
+
+```dart
+import 'package:flutter_base_project/global/utils/app_info.dart';
+
+// Get app information
+final appName = AppInfo.appName;
+final version = AppInfo.version;
+final buildNumber = AppInfo.buildNumber;
+final fullVersion = AppInfo.fullVersion; // "1.0.0+1"
 ```
 
 ### VS Code Launch Configurations
@@ -281,6 +374,35 @@ class ExamplePage extends StatelessWidget {
     );
   }
 }
+```
+
+## ⚙️ Settings Management
+
+### AppSettingsStore Usage
+```dart
+import 'package:flutter_base_project/global/settings/app_settings_store.dart';
+
+final settingsStore = AppSettingsStore();
+
+// Initialize settings
+await settingsStore.initialize();
+
+// Change theme mode
+await settingsStore.setThemeMode(AppThemeMode.dark);
+
+// Change locale
+await settingsStore.setLocale(const Locale('pt', 'BR'));
+
+// Listen to changes
+ListenableBuilder(
+  listenable: settingsStore,
+  builder: (context, child) {
+    return settingsStore.state.when(
+      success: (settings) => YourWidget(settings: settings),
+      // ... other states
+    );
+  },
+);
 ```
 
 ## 🌍 Internationalization
@@ -359,11 +481,15 @@ context.go(RoutePaths.home);
 test/
 ├── app/                    # Main app tests
 ├── features/               # Feature tests
-│   └── home/
-│       ├── domain/
-│       ├── infrastructure/
-│       └── presentation/
-└── global/                 # Global module tests
+│   ├── home/
+│   │   ├── domain/        # Domain layer tests
+│   │   ├── infrastructure/ # Infrastructure tests
+│   │   └── presentation/  # Presentation tests
+│   └── settings/          # Settings feature tests
+└── global/                # Global module tests
+    ├── services/          # Service tests
+    ├── utils/             # Utility tests
+    └── network/           # Network tests
 ```
 
 ### Running Tests
@@ -371,8 +497,11 @@ test/
 # All tests
 flutter test
 
-# Specific tests
+# Specific feature tests
 flutter test test/features/home/
+
+# Coverage report
+flutter test --coverage
 ```
 
 ## 📝 Creating a New Feature
@@ -381,15 +510,26 @@ flutter test test/features/home/
 ```bash
 lib/features/new_feature/
 ├── domain/
+│   ├── enums/
+│   ├── failures/
+│   ├── models/
+│   └── usecases/
 ├── infrastructure/
+│   ├── repositories/
+│   └── settings/
 ├── utils/
 └── presentation/
+    ├── stores/
+    ├── components/
+    ├── pages/
+    ├── mixins/
+    └── widgets/
 ```
 
 2. **Implement layers:**
-   - Domain: Models, UseCases, Failures
-   - Infrastructure: Repositories, Settings
-   - Presentation: Pages, Stores, Widgets
+   - **Domain**: Models, UseCases, Failures, Enums
+   - **Infrastructure**: Repositories, Settings, Data Sources
+   - **Presentation**: Pages, Stores, Widgets, Components
 
 3. **Add routes:**
 ```dart
@@ -401,6 +541,14 @@ GoRoute(
   path: RoutePaths.newFeature,
   builder: (context, state) => const NewFeaturePage(),
 ),
+```
+
+4. **Register dependencies (if using GetIt):**
+```dart
+// Add to your dependency injection setup
+getIt.registerLazySingleton<NewFeatureRepository>(
+  () => NewFeatureRepositoryImpl(),
+);
 ```
 
 ## 🤝 Contributing

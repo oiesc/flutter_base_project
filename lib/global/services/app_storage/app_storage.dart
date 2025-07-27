@@ -1,10 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppStorage {
-  static final AppStorage i = AppStorage._internal();
-  factory AppStorage() => i;
-  AppStorage._internal();
-
   SharedPreferences? _prefs;
   SharedPreferences? get prefs => _prefs;
 

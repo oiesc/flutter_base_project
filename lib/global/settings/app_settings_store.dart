@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app_core/failures/app_failure.dart';
@@ -54,8 +55,8 @@ class AppSettingsStore extends ValueStore<AppSettings> {
   Future<void> initialize() async {
     try {
       updateState(const LoadingState<AppSettings>());
-      await AppStorage.i.initialize();
-      _prefs = AppStorage.i.prefs;
+      await GetIt.I<AppStorage>().initialize();
+      _prefs = GetIt.I<AppStorage>().prefs;
       await _loadSettings();
     } catch (error) {
       updateState(
