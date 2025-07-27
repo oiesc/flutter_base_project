@@ -16,7 +16,7 @@ The project includes a fully functional **Home feature** that demonstrates:
 - API integration with external services (Dog CEO API)
 - Custom state management using ValueStore
 - Error handling across all layers
-- Clean Architecture implementation with Domain, Infrastructure, and Presentation layers
+- Clean Architecture implementation across all layers
 
 ### 📁 Folder Structure
 
@@ -63,7 +63,7 @@ lib/
 - **Clean Architecture**: Complete implementation across all layers
 - **Error Handling**: Comprehensive error handling at each layer
 - **State Management**: Custom ValueStore implementation with reactive UI
-- **Testing**: Unit tests for all layers with proper mocking
+- **Unit Testing**: Comprehensive tests with proper mocking
 
 ### ✅ Custom State Management System
 - **ValueStore**: Custom state management extending ValueNotifier
@@ -83,24 +83,11 @@ lib/
 - **Centralized key management**: Organized storage keys in AppStorageKeys
 - **Easy data persistence**: Simple API for data storage and retrieval
 
-### ✅ App Information
+### ✅ App Information & Logging
 - **AppInfo**: Package information utilities powered by package_info_plus
-- **Version management**: Access to app version and build numbers
-- **Environment info**: Runtime environment configuration access
-- **App metadata**: Centralized app information management
-
-### ✅ Logging System
 - **AppLogger**: Centralized logging system using logger package
 - **Environment-based levels**: Different log levels per environment
-- **Structured logging**: Consistent log formatting and categorization
-- **Debug utilities**: Enhanced debugging capabilities
-
-### ✅ Clean Architecture Implementation
-- **Domain Layer**: Business logic, use cases, and domain models
-- **Infrastructure Layer**: Data access, repositories, and external APIs
-- **Presentation Layer**: UI components, state management, and user interactions
-- **External Layer**: API data sources and external service integrations
-- **Proper Dependency Inversion**: Interfaces and implementations properly separated
+- **Version management**: Access to app version and build numbers
 
 ### ✅ Settings Management
 - **AppSettingsStore**: Global settings using ValueStore pattern
@@ -171,18 +158,31 @@ flutter run --dart-define-from-file=env/staging.json
 flutter run --dart-define-from-file=env/production.json
 ```
 
-### 🏗️ Build
+### Building for Production
 
 ```bash
-# Development APK
-flutter build apk --dart-define-from-file=env/development.json
-
 # Production APK
 flutter build apk --dart-define-from-file=env/production.json
 
+# Production App Bundle (recommended for Play Store)
+flutter build appbundle --dart-define-from-file=env/production.json
+
 # Web build
 flutter build web --dart-define-from-file=env/production.json
+
+# iOS build (macOS only)
+flutter build ios --dart-define-from-file=env/production.json
 ```
+
+### VS Code Configuration
+
+The project includes pre-configured launch configurations in `.vscode/launch.json`:
+
+- **Development**: Debug mode with development settings
+- **Staging**: Debug mode with staging settings  
+- **Production**: Debug mode with production settings
+- **Development (Profile)**: Profile mode for performance testing
+- **Production (Release)**: Release mode for final testing
 
 ## 🏛️ Architecture Layers
 
@@ -208,7 +208,7 @@ flutter build web --dart-define-from-file=env/production.json
 - **HTTP Client**: Network communication setup and configuration
 - **API Endpoints**: External service endpoint definitions
 
-## 📦 Main Dependencies
+## 📦 Dependencies
 
 ```yaml
 dependencies:
@@ -235,7 +235,7 @@ dev_dependencies:
 
 This project uses `--dart-define-from-file` for environment configuration, eliminating the need for external libraries.
 
-### Configuration Structure
+### Configuration Files
 
 ```
 env/
@@ -245,7 +245,7 @@ env/
 └── local.example.json # Local development example
 ```
 
-### Available Configurations
+### Available Settings
 
 - **ENVIRONMENT**: Current environment (development/staging/production)
 - **API_BASE_URL**: API base URL
@@ -322,26 +322,16 @@ final buildNumber = AppInfo.buildNumber;
 final fullVersion = AppInfo.fullVersion; // "1.0.0+1"
 ```
 
-### VS Code Launch Configurations
+## 🎨 Design System & Themes
 
-The project includes pre-configured launch configurations in `.vscode/launch.json`:
-
-- **Development**: Debug mode with development settings
-- **Staging**: Debug mode with staging settings  
-- **Production**: Debug mode with production settings
-- **Development (Profile)**: Profile mode for performance testing
-- **Production (Release)**: Release mode for final testing
-
-## 🎨 Design System
-
-### Colors
+### Color Palette
 - **Primary**: #6366F1 (Indigo)
 - **Secondary**: #06B6D4 (Cyan)
 - **Success**: #10B981 (Emerald)
 - **Warning**: #F59E0B (Amber)
 - **Error**: #EF4444 (Red)
 
-### Spacing
+### Spacing System
 - **Small**: 8px
 - **Medium**: 16px
 - **Large**: 24px
@@ -352,6 +342,24 @@ The project includes pre-configured launch configurations in `.vscode/launch.jso
 - **Medium**: 8px
 - **Large**: 16px
 - **Extra Large**: 24px
+
+### Customizing Themes
+```dart
+// lib/global/themes/app_theme.dart
+class AppColors {
+  static const Color primary = Color(0xFF6366F1);
+  // Add your colors here
+}
+```
+
+### Using Themes in UI
+```dart
+// Primary color
+color: Theme.of(context).colorScheme.primary
+
+// Headline text
+style: Theme.of(context).textTheme.headlineSmall
+```
 
 ## 🔄 State Management
 
@@ -457,26 +465,6 @@ flutter gen-l10n
 Text(AppLocalizations.of(context)!.newKey)
 ```
 
-## 🎨 Themes
-
-### Customizing Colors
-```dart
-// lib/global/themes/app_theme.dart
-class AppColors {
-  static const Color primary = Color(0xFF6366F1);
-  // Add your colors here
-}
-```
-
-### Using Themes
-```dart
-// Primary color
-color: Theme.of(context).colorScheme.primary
-
-// Headline text
-style: Theme.of(context).textTheme.headlineSmall
-```
-
 ## 🚦 Navigation
 
 ### Defining Routes
@@ -501,25 +489,22 @@ context.go(RoutePaths.home);
 
 ## 🧪 Testing Strategy
 
-### Test Coverage
-The project includes comprehensive testing for the Home feature:
+The project includes comprehensive unit testing for the Home feature, demonstrating best practices for testing in Clean Architecture.
+
+### Test Structure
 
 ```
 test/
 ├── features/
 │   └── home/
-│       ├── domain/
-│       │   └── usecases/          # Use case unit tests
-│       ├── infrastructure/
-│       │   └── repositories/      # Repository unit tests
-│       ├── external/
-│       │   └── datasources/       # Data source unit tests
 │       └── presentation/
-│           └── stores/            # Store unit tests
-└── global/                        # Global module tests
+│           └── stores/           # Store unit tests
+├── global/                       # Global module tests (expandable)
+└── widget_test.dart             # App smoke tests
 ```
 
 ### Running Tests
+
 ```bash
 # Run all tests
 flutter test
@@ -529,12 +514,17 @@ flutter test test/features/home/
 
 # Run with coverage
 flutter test --coverage
-lcov --summary coverage/lcov.info
+
+# View coverage report (requires lcov)
+genhtml coverage/lcov.info -o coverage/html
+open coverage/html/index.html
 ```
 
-### Test Examples
+### Test Implementation Example
+
+The project includes comprehensive testing for the HomeStore using Mockito:
+
 ```dart
-// Store testing with mocked dependencies
 void main() {
   group('HomeStore Tests', () {
     late HomeStore homeStore;
@@ -557,9 +547,30 @@ void main() {
       // Assert
       expect(homeStore.state, isA<SuccessState<HomeImage>>());
     });
+    
+    test('should update state to error when loadData fails', () async {
+      // Arrange
+      final failure = AppGenericFailure(message: 'Test error');
+      when(mockUsecase.loadHomeData())
+          .thenAnswer((_) async => Left(failure));
+      
+      // Act
+      await homeStore.loadData();
+      
+      // Assert
+      expect(homeStore.state, isA<ErrorState<HomeImage>>());
+    });
   });
 }
 ```
+
+### Testing Best Practices
+
+- **Mocking Dependencies**: Use Mockito for creating test doubles
+- **State Verification**: Test all possible states (Idle, Loading, Success, Error)
+- **Isolated Testing**: Each layer is tested independently
+- **Dummy Providers**: Proper setup for complex types with Mockito
+- **Clean Setup/Teardown**: Proper resource management in tests
 
 ## 📝 Creating a New Feature
 
