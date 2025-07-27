@@ -13,7 +13,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settingsStore = AppSettingsStore();
+    final settingsStore = AppSettingsStore.instance;
 
     return Scaffold(
       appBar: AppBar(

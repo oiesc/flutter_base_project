@@ -45,11 +45,12 @@ class AppSettings {
 
 /// Store for managing application settings using ValueStore
 class AppSettingsStore extends ValueStore<AppSettings> {
-  static final AppSettingsStore _instance = AppSettingsStore._internal();
-  factory AppSettingsStore() => _instance;
-  AppSettingsStore._internal() : super(null);
+  AppSettingsStore() : super(null);
 
   SharedPreferences? _prefs;
+
+  /// Get the AppSettingsStore instance from GetIt
+  static AppSettingsStore get instance => GetIt.I<AppSettingsStore>();
 
   /// Initialize the settings store
   Future<void> initialize() async {
