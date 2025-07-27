@@ -80,6 +80,10 @@
   "@homeFeatureStructure": {
     "description": "Project structure feature"
   },
+  "homeButtonMessage": "Click here...",
+  "@homeButtonMessage": {
+    "description": "Button description in home"
+  },
   
   "home": "Home",
   "@home": {
@@ -89,6 +93,7 @@
   "@welcome": {
     "description": "Welcome message"
   },
+
   "settings": "Settings",
   "@settings": {
     "description": "Settings page title"

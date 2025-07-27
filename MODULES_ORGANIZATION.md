@@ -1,37 +1,37 @@
-# Organização de Módulos
+# Module Organization
 
-Este documento explica a organização dos módulos no projeto para evitar confusões.
+This document explains the module organization in the project to avoid confusion.
 
-## Estrutura Atual
+## Current Structure
 
 ### 📁 `global/di/`
-**Propósito**: Dependency Injection global da aplicação
-- `app_dependency_injector.dart` - Configurador principal de DI
-- `modules/` - Módulos de DI para serviços globais
-  - `app_network_module.dart` - Configuração de rede (Dio, etc.)
-  - `app_storage_module.dart` - Configuração de storage local
-  - `app_settings_module.dart` - Configuração de settings da app
+**Purpose**: Global Dependency Injection for the application
+- `app_dependency_injector.dart` - Main DI configurator
+- `modules/` - DI modules for global services
+  - `app_network_module.dart` - Network configuration (Dio, etc.)
+  - `app_storage_module.dart` - Local storage configuration
+  - `app_settings_module.dart` - App settings configuration
 
 ### 📁 `global/modules/`
-**Propósito**: Sistema modular para features
-- `base_module.dart` - Classe abstrata para módulos de feature
-- `module_manager.dart` - Gerenciador dos módulos de features
-- `module_exports.dart` - Barrel export dos módulos
+**Purpose**: Modular system for features
+- `base_module.dart` - Abstract class for feature modules
+- `module_manager.dart` - Feature modules manager
+- `module_exports.dart` - Barrel export for modules
 
 ### 📁 `features/*/`
-**Propósito**: Módulos específicos de cada feature
-- `home/home_module.dart` - Módulo da feature home
-- `settings/settings_module.dart` - Módulo da feature settings
-- `user/user_module.dart` - Módulo da feature user
-- `auth/auth_module.dart` - Módulo da feature auth
+**Purpose**: Specific modules for each feature
+- `home/home_module.dart` - Home feature module
+- `settings/settings_module.dart` - Settings feature module
+- `user/user_module.dart` - User feature module
+- `auth/auth_module.dart` - Auth feature module
 
-## Diferenças Conceituais
+## Conceptual Differences
 
 ### DI Modules (`global/di/modules/`)
-- **Escopo**: Global/App-wide
-- **Responsabilidade**: Configurar serviços compartilhados
-- **Exemplos**: HTTP client, storage, configurações globais
-- **Padrão**: `App*Module` (ex: AppNetworkModule)
+- **Scope**: Global/App-wide
+- **Responsibility**: Configure shared services
+- **Examples**: HTTP client, storage, global configurations
+- **Pattern**: `App*Module` (ex: AppNetworkModule)
 
 ```dart
 class AppNetworkModule {
@@ -45,10 +45,10 @@ class AppNetworkModule {
 ```
 
 ### Feature Modules (`global/modules/` + `features/*/`)
-- **Escopo**: Feature-specific
-- **Responsabilidade**: Rotas + dependências da feature
-- **Exemplos**: Repositories, UseCases, Controllers da feature
-- **Padrão**: `*Module` (ex: HomeModule)
+- **Scope**: Feature-specific
+- **Responsibility**: Routes + feature dependencies
+- **Examples**: Repositories, UseCases, Controllers for the feature
+- **Pattern**: `*Module` (ex: HomeModule)
 
 ```dart
 class HomeModule extends BaseModule {
@@ -58,35 +58,35 @@ class HomeModule extends BaseModule {
   }
   
   @override
-  List<RouteBase> get routes => [/* rotas da home */];
+  List<RouteBase> get routes => [/* home routes */];
 }
 ```
 
-## Fluxo de Inicialização
+## Initialization Flow
 
-1. **DI Global** - `AppDependencyInjector.setup()`
-   - Registra serviços globais (network, storage, etc.)
+1. **Global DI** - `AppDependencyInjector.setup()`
+   - Register global services (network, storage, etc.)
    
 2. **Feature Modules** - `_registerFeatureModules()`
-   - Registra módulos de features via `ModuleManager`
+   - Register feature modules via `ModuleManager`
    
 3. **Router** - `AppRouter.initialize()`
-   - Coleta todas as rotas dos módulos registrados
+   - Collect all routes from registered modules
 
-## Vantagens da Separação
+## Separation Advantages
 
-✅ **Clareza conceitual**: DI global vs Feature modules
-✅ **Responsabilidades bem definidas**: Cada pasta tem um propósito específico
-✅ **Escalabilidade**: Fácil adicionar novos tipos de módulos
-✅ **Manutenibilidade**: Mudanças isoladas por contexto
-✅ **Testing**: Mock independente por tipo de módulo
+✅ **Conceptual clarity**: Global DI vs Feature modules
+✅ **Well-defined responsibilities**: Each folder has a specific purpose
+✅ **Scalability**: Easy to add new types of modules
+✅ **Maintainability**: Isolated changes by context
+✅ **Testing**: Independent mocking by module type
 
-## Como Usar
+## How to Use
 
-### Adicionando um serviço global:
-1. Criar módulo em `global/di/modules/app_*_module.dart`
-2. Registrar em `AppDependencyInjector.setup()`
+### Adding a global service:
+1. Create module in `global/di/modules/app_*_module.dart`
+2. Register in `AppDependencyInjector.setup()`
 
-### Adicionando uma nova feature:
-1. Criar módulo em `features/*/feature_module.dart`
-2. Registrar em `AppDependencyInjector._registerFeatureModules()`
+### Adding a new feature:
+1. Create module in `features/*/feature_module.dart`
+2. Register in `AppDependencyInjector._registerFeatureModules()`

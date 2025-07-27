@@ -1,73 +1,73 @@
-# Sistema Modular - Guia de Uso
+# Modular System - Usage Guide
 
-Este projeto implementa um sistema modular inspirado no package Modular, permitindo que cada feature gerencie suas próprias rotas e dependências de forma organizada.
+This project implements a modular system inspired by the Modular package, allowing each feature to manage its own routes and dependencies in an organized way.
 
-## Estrutura Base
+## Base Structure
 
 ### BaseModule
-Classe abstrata que define a interface para todos os módulos de feature:
+Abstract class that defines the interface for all feature modules:
 
 ```dart
 abstract class BaseModule {
-  void registerDependencies(); // Registra dependências do GetIt
-  List<RouteBase> get routes;  // Define rotas da feature
+  void registerDependencies(); // Register GetIt dependencies
+  List<RouteBase> get routes;  // Define feature routes
 }
 ```
 
 ### ModuleManager
-Gerencia todos os módulos registrados e coleta rotas/dependências:
+Manages all registered modules and collects routes/dependencies:
 
 ```dart
 final moduleManager = ModuleManager();
 moduleManager.registerModule(HomeModule(getIt));
 ```
 
-## Como Criar um Novo Módulo
+## How to Create a New Module
 
-### 1. Criar a classe do módulo
+### 1. Create the module class
 
 ```dart
-// lib/features/exemplo/exemplo_module.dart
+// lib/features/example/example_module.dart
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import '../../global/modules/base_module.dart';
 
-class ExemploModule extends BaseModule {
-  ExemploModule(GetIt getIt) : super(getIt);
+class ExampleModule extends BaseModule {
+  ExampleModule(GetIt getIt) : super(getIt);
 
   @override
   void registerDependencies() {
-    // Registre as dependências da feature
-    getIt.registerLazySingleton<ExemploRepository>(
-      () => ExemploRepositoryImpl(),
+    // Register feature dependencies
+    getIt.registerLazySingleton<ExampleRepository>(
+      () => ExampleRepositoryImpl(),
     );
-    getIt.registerLazySingleton<ExemploUseCase>(
-      () => ExemploUseCase(getIt()),
+    getIt.registerLazySingleton<ExampleUseCase>(
+      () => ExampleUseCase(getIt()),
     );
   }
 
   @override
   List<RouteBase> get routes => [
     GoRoute(
-      path: '/exemplo',
-      name: 'exemplo',
-      builder: (context, state) => const ExemploPage(),
+      path: '/example',
+      name: 'example',
+      builder: (context, state) => const ExamplePage(),
     ),
     GoRoute(
-      path: '/exemplo/detalhes/:id',
-      name: 'exemplo-detalhes',
+      path: '/example/details/:id',
+      name: 'example-details',
       builder: (context, state) {
         final id = state.pathParameters['id']!;
-        return ExemploDetalhesPage(id: id);
+        return ExampleDetailsPage(id: id);
       },
     ),
   ];
 }
 ```
 
-### 2. Registrar o módulo
+### 2. Register the module
 
-No arquivo `lib/global/di/app_dependency_injector.dart`, adicione o módulo:
+In the file `lib/global/di/app_dependency_injector.dart`, add the module:
 
 ```dart
 static void _registerFeatureModules() {
@@ -75,140 +75,140 @@ static void _registerFeatureModules() {
   
   moduleManager.registerModule(HomeModule(_it));
   moduleManager.registerModule(SettingsModule(_it));
-  moduleManager.registerModule(ExemploModule(_it)); // Novo módulo
+  moduleManager.registerModule(ExampleModule(_it)); // New module
 }
 ```
 
-### 3. Definir constantes de rotas (opcional)
+### 3. Define route constants (optional)
 
-No arquivo `lib/global/router/route_paths.dart`:
+In the file `lib/global/router/route_paths.dart`:
 
 ```dart
 class RoutePaths {
   static const String home = '/';
   static const String settings = '/settings';
-  static const String exemplo = '/exemplo'; // Nova rota
+  static const String example = '/example'; // New route
 }
 ```
 
-## Vantagens do Sistema
+## System Advantages
 
-### ✅ Organização
-- Cada feature gerencia suas próprias rotas e dependências
-- Código modular e fácil de manter
+### ✅ Organization
+- Each feature manages its own routes and dependencies
+- Modular and easy to maintain code
 
-### ✅ Desacoplamento
-- Features podem ser desenvolvidas independentemente
-- Fácil remoção ou adição de features
+### ✅ Decoupling
+- Features can be developed independently
+- Easy removal or addition of features
 
-### ✅ Reutilização
-- Dependências ficam encapsuladas no módulo
-- Fácil testing com mocks
+### ✅ Reusability
+- Dependencies are encapsulated in the module
+- Easy testing with mocks
 
-### ✅ Escalabilidade
-- Adicionar novas features é simples
-- Não precisa modificar arquivos centrais
+### ✅ Scalability
+- Adding new features is simple
+- No need to modify central files
 
-## Exemplo de Uso
+## Usage Example
 
-### Registrando dependências complexas:
+### Registering complex dependencies:
 
 ```dart
 @override
 void registerDependencies() {
   // Data sources
-  getIt.registerLazySingleton<ExemploRemoteDataSource>(
-    () => ExemploRemoteDataSourceImpl(getIt<Dio>()),
+  getIt.registerLazySingleton<ExampleRemoteDataSource>(
+    () => ExampleRemoteDataSourceImpl(getIt<Dio>()),
   );
   
-  getIt.registerLazySingleton<ExemploLocalDataSource>(
-    () => ExemploLocalDataSourceImpl(getIt<AppStorage>()),
+  getIt.registerLazySingleton<ExampleLocalDataSource>(
+    () => ExampleLocalDataSourceImpl(getIt<AppStorage>()),
   );
   
   // Repository
-  getIt.registerLazySingleton<ExemploRepository>(
-    () => ExemploRepositoryImpl(
+  getIt.registerLazySingleton<ExampleRepository>(
+    () => ExampleRepositoryImpl(
       remoteDataSource: getIt(),
       localDataSource: getIt(),
     ),
   );
   
   // Use cases
-  getIt.registerLazySingleton<GetExemploUseCase>(
-    () => GetExemploUseCase(getIt()),
+  getIt.registerLazySingleton<GetExampleUseCase>(
+    () => GetExampleUseCase(getIt()),
   );
   
-  getIt.registerLazySingleton<CreateExemploUseCase>(
-    () => CreateExemploUseCase(getIt()),
+  getIt.registerLazySingleton<CreateExampleUseCase>(
+    () => CreateExampleUseCase(getIt()),
   );
   
-  // Blocs/Controllers
-  getIt.registerFactory<ExemploCubit>(
-    () => ExemploCubit(
-      getExemploUseCase: getIt(),
-      createExemploUseCase: getIt(),
+  // Stores/Controllers
+  getIt.registerFactory<ExampleStore>(
+    () => ExampleStore(
+      getExampleUseCase: getIt(),
+      createExampleUseCase: getIt(),
     ),
   );
 }
 ```
 
-### Definindo rotas com parâmetros:
+### Defining routes with parameters:
 
 ```dart
 @override
 List<RouteBase> get routes => [
   GoRoute(
-    path: '/exemplo',
-    name: 'exemplo-lista',
-    builder: (context, state) => const ExemploListaPage(),
+    path: '/example',
+    name: 'example-list',
+    builder: (context, state) => const ExampleListPage(),
     routes: [
       GoRoute(
-        path: '/detalhes/:id',
-        name: 'exemplo-detalhes',
+        path: '/details/:id',
+        name: 'example-details',
         builder: (context, state) {
           final id = state.pathParameters['id']!;
-          return ExemploDetalhesPage(id: id);
+          return ExampleDetailsPage(id: id);
         },
       ),
       GoRoute(
-        path: '/criar',
-        name: 'exemplo-criar',
-        builder: (context, state) => const ExemploCriarPage(),
+        path: '/create',
+        name: 'example-create',
+        builder: (context, state) => const ExampleCreatePage(),
       ),
     ],
   ),
 ];
 ```
 
-## Navegação
+## Navigation
 
-Com as rotas definidas nos módulos, a navegação funciona normalmente:
+With routes defined in modules, navigation works normally:
 
 ```dart
-// Ir para uma página
-context.push('/exemplo');
-context.pushNamed('exemplo-detalhes', pathParameters: {'id': '123'});
+// Go to a page
+context.push('/example');
+context.pushNamed('example-details', pathParameters: {'id': '123'});
 
-// Voltar
+// Go back
 context.pop();
 
-// Substituir
-context.go('/exemplo');
+// Replace
+context.go('/example');
 ```
 
 ## Testing
 
-Para testes, você pode facilmente mockar as dependências:
+For tests, you can easily mock dependencies:
 
 ```dart
 setUp(() {
-  // Limpar módulos existentes
+  // Clear existing modules
   ModuleManager().clear();
   GetIt.I.reset();
   
-  // Registrar mocks
-  GetIt.I.registerLazySingleton<ExemploRepository>(
-    () => MockExemploRepository(),
+  // Register mocks
+  GetIt.I.registerLazySingleton<ExampleRepository>(
+    () => MockExampleRepository(),
   );
 });
 ```

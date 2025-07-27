@@ -200,6 +200,12 @@ abstract class AppLocalizations {
   /// **'• Feature-based Structure'**
   String get homeFeatureStructure;
 
+  /// Button description in home
+  ///
+  /// In en, this message translates to:
+  /// **'Click here...'**
+  String get homeButtonMessage;
+
   /// Home page title
   ///
   /// In en, this message translates to:

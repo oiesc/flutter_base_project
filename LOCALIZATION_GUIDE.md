@@ -1,60 +1,60 @@
 # 🌍 Localization Organization Guide
 
-Este guia explica como as traduções estão organizadas no projeto por **seções/features** para facilitar manutenção e adição de novas strings.
+This guide explains how translations are organized in the project by **sections/features** to facilitate maintenance and addition of new strings.
 
-## 📁 **Estrutura de Organização**
+## 📁 **Organization Structure**
 
-As traduções estão organizadas por **prefixos** que representam cada seção/feature:
+Translations are organized by **prefixes** that represent each section/feature:
 
 ### **1. 🏗️ APP CORE** - `app*`
-Strings principais da aplicação:
-- `appTitle` - Título do app
-- `appErrorInitializing` - Erro ao inicializar
-- `appTryAgain` - Tentar novamente
-- `appVersion` - Versão
-- `appName` - Nome do app
+Main application strings:
+- `appTitle` - App title
+- `appErrorInitializing` - Error during initialization
+- `appTryAgain` - Try again
+- `appVersion` - Version
+- `appName` - App name
 
 ### **2. 🧭 NAVIGATION** - `nav*`
-Strings relacionadas à navegação:
-- `navHome` - Início
-- `navSettings` - Configurações  
-- `navPageNotFound` - Página não encontrada
-- `navPageNotFoundMessage` - Mensagem de erro com path
-- `navGoHome` - Ir para início
+Navigation-related strings:
+- `navHome` - Home
+- `navSettings` - Settings  
+- `navPageNotFound` - Page not found
+- `navPageNotFoundMessage` - Error message with path
+- `navGoHome` - Go to home
 
 ### **3. 🏠 HOME FEATURE** - `home*`
-Strings da página inicial:
-- `homeWelcome` - Mensagem de boas-vindas
-- `homeFeatureTitle` - Título da lista de features
+Home page strings:
+- `homeWelcome` - Welcome message
+- `homeFeatureTitle` - Feature list title
 - `homeFeatureCleanArch` - Clean Architecture
-- `homeFeatureStateManagement` - Gerenciamento de estado
-- `homeFeatureI18n` - Internacionalização
-- `homeFeatureTheme` - Gerenciamento de tema
-- `homeFeatureNavigation` - Navegação
-- `homeFeatureStructure` - Estrutura do projeto
+- `homeFeatureStateManagement` - State management
+- `homeFeatureI18n` - Internationalization
+- `homeFeatureTheme` - Theme management
+- `homeFeatureNavigation` - Navigation
+- `homeFeatureStructure` - Project structure
 
 ### **4. ⚙️ SETTINGS FEATURE** - `settings*`
-Strings da página de configurações:
-- `settingsTitle` - Título da página
-- `settingsThemeSection` - Seção de tema
-- `settingsLanguageSection` - Seção de idioma
-- `settingsAppInfoSection` - Informações do app
-- `settingsThemeLight/Dark/System` - Opções de tema
-- `settingsLanguageEnglish/Portuguese` - Opções de idioma
-- `settingsErrorLoading` - Erro ao carregar
-- `settingsRetry` - Tentar novamente
+Settings page strings:
+- `settingsTitle` - Page title
+- `settingsThemeSection` - Theme section
+- `settingsLanguageSection` - Language section
+- `settingsAppInfoSection` - App info
+- `settingsThemeLight/Dark/System` - Theme options
+- `settingsLanguageEnglish/Portuguese` - Language options
+- `settingsErrorLoading` - Error loading
+- `settingsRetry` - Try again
 
-## 📝 **Como Adicionar Novas Traduções**
+## 📝 **How to Add New Translations**
 
-### **Passo 1: Identificar a Feature**
-Determine a qual feature/seção a nova string pertence:
+### **Step 1: Identify the Feature**
+Determine which feature/section the new string belongs to:
 - App Core → `app*`
 - Navigation → `nav*`  
 - Home → `home*`
 - Settings → `settings*`
-- Nova Feature → `novaFeature*`
+- New Feature → `newFeature*`
 
-### **Passo 2: Adicionar nos Arquivos ARB**
+### **Step 2: Add to ARB Files**
 
 **`lib/global/l10n/app_en.arb`:**
 ```json
@@ -73,56 +73,56 @@ Determine a qual feature/seção a nova string pertence:
 }
 ```
 
-### **Passo 3: Gerar Traduções**
+### **Step 3: Generate Translations**
 ```bash
 flutter gen-l10n
 ```
 
-### **Passo 4: Usar no Código**
+### **Step 4: Use in Code**
 ```dart
 Text(
   AppLocalizations.of(context)!.homeNewFeature ?? 'Fallback text',
 )
 ```
 
-## 🎯 **Convenções de Nomenclatura**
+## 🎯 **Naming Conventions**
 
-### **Prefixos por Feature:**
-- `app*` - Core da aplicação
-- `nav*` - Navegação  
-- `home*` - Página inicial
-- `settings*` - Configurações
-- `auth*` - Autenticação (futuro)
-- `profile*` - Perfil (futuro)
+### **Prefixes by Feature:**
+- `app*` - Application core
+- `nav*` - Navigation  
+- `home*` - Home page
+- `settings*` - Settings
+- `auth*` - Authentication (future)
+- `profile*` - Profile (future)
 
-### **Sufixos por Tipo:**
-- `*Title` - Títulos
-- `*Section` - Seções  
-- `*Button` - Botões
-- `*Error` - Mensagens de erro
-- `*Success` - Mensagens de sucesso
-- `*Loading` - Estados de carregamento
+### **Suffixes by Type:**
+- `*Title` - Titles
+- `*Section` - Sections  
+- `*Button` - Buttons
+- `*Error` - Error messages
+- `*Success` - Success messages
+- `*Loading` - Loading states
 
-### **Exemplos:**
+### **Examples:**
 ```dart
-// ✅ Bom
+// ✅ Good
 "homeWelcomeTitle"
 "settingsThemeSection" 
 "authLoginButton"
 "profileErrorLoading"
 
-// ❌ Evitar
+// ❌ Avoid
 "welcome"
 "theme"
 "login"  
 "error"
 ```
 
-## 🔄 **Adicionando Nova Feature**
+## 🔄 **Adding New Feature**
 
-### **Exemplo: Feature de Perfil**
+### **Example: Profile Feature**
 
-**1. Adicionar strings organizadas:**
+**1. Add organized strings:**
 ```json
 {
   "profileTitle": "Profile",
@@ -133,7 +133,7 @@ Text(
 }
 ```
 
-**2. Usar com padrão consistente:**
+**2. Use with consistent pattern:**
 ```dart
 class ProfilePage extends StatelessWidget {
   @override
@@ -144,30 +144,30 @@ class ProfilePage extends StatelessWidget {
           AppLocalizations.of(context)!.profileTitle ?? 'Profile',
         ),
       ),
-      // ...resto da página
+      // ...rest of the page
     );
   }
 }
 ```
 
-## 📊 **Benefícios da Organização**
+## 📊 **Organization Benefits**
 
-| Aspecto | Antes | Depois |
+| Aspect | Before | After |
 |---------|-------|---------|
-| **Localização** | ❌ Strings espalhadas | ✅ Agrupadas por feature |
-| **Manutenção** | ❌ Difícil encontrar | ✅ Fácil localizar e editar |
-| **Colaboração** | ❌ Conflitos frequentes | ✅ Cada dev trabalha em sua feature |
-| **Escalabilidade** | ❌ Arquivo gigante | ✅ Organização clara |
-| **Tradução** | ❌ Contexto perdido | ✅ Contexto claro por feature |
+| **Location** | ❌ Scattered strings | ✅ Grouped by feature |
+| **Maintenance** | ❌ Hard to find | ✅ Easy to locate and edit |
+| **Collaboration** | ❌ Frequent conflicts | ✅ Each dev works on their feature |
+| **Scalability** | ❌ Giant file | ✅ Clear organization |
+| **Translation** | ❌ Lost context | ✅ Clear context by feature |
 
-## 🚀 **Próximos Passos**
+## 🚀 **Next Steps**
 
-Para adicionar novas features, siga este padrão:
+To add new features, follow this pattern:
 
-1. **Definir prefixo** da nova feature
-2. **Criar seção** nos arquivos ARB
-3. **Documentar** as novas strings
-4. **Usar consistentemente** no código
-5. **Testar** em ambos os idiomas
+1. **Define prefix** for the new feature
+2. **Create section** in ARB files
+3. **Document** the new strings
+4. **Use consistently** in code
+5. **Test** in both languages
 
-Esta organização torna a internacionalização **simples, escalável e fácil de manter**! 🎯
+This organization makes internationalization **simple, scalable and easy to maintain**! 🎯

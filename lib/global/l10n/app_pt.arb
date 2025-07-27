@@ -20,9 +20,11 @@
   "homeFeatureTheme": "• Gerenciamento de Tema (Claro/Escuro)",
   "homeFeatureNavigation": "• GoRouter para Navegação",
   "homeFeatureStructure": "• Estrutura Baseada em Features",
+  "homeButtonMessage": "Clique aqui...",
   
   "home": "Início",
   "welcome": "Bem-vindo ao Projeto Base Flutter",
+
   "settings": "Configurações",
   
   "settingsTitle": "Configurações",

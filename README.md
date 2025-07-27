@@ -1,16 +1,22 @@
 # Flutter Base Project
 
-A Flutter base project built with **Clean Architecture**, **MVVM**, and **custom state management**. This project serves as a robust template for future Flutter projects, providing a scalable, well-organized, and production-ready structure.
+A Flutter base project built with **Clean Architecture**, **Custom State Management**, and **Feature-Based Organization**. This project serves as a robust template for future Flutter projects, providing a scalable, well-organized, and production-ready structure with real-world implementation examples.
 
 ## 🏗️ Architecture
 
-This project implements an architecture based on Clean Architecture with MVVM, organized by features, ensuring:
+This project implements Clean Architecture organized by features, ensuring:
 
-- **Separation of responsibilities**
-- **Testability**
-- **Scalability**
-- **Maintainability**
-- **Code reusability**
+- **Separation of responsibilities** across layers
+- **Testability** with proper dependency injection
+- **Scalability** through modular feature organization
+- **Maintainability** with clear code structure
+- **Code reusability** via shared global modules
+
+The project includes a fully functional **Home feature** that demonstrates:
+- API integration with external services (Dog CEO API)
+- Custom state management using ValueStore
+- Error handling across all layers
+- Clean Architecture implementation with Domain, Infrastructure, and Presentation layers
 
 ### 📁 Folder Structure
 
@@ -19,102 +25,102 @@ lib/
 ├── app/                          # Main application configuration
 │   └── app.dart                  # Main app widget
 ├── features/                     # Feature modules
-│   ├── home/                     # Home feature
+│   ├── home/                     # Home feature (Complete implementation)
 │   │   ├── domain/               # Domain layer
-│   │   │   ├── enums/           # Enumerations
-│   │   │   ├── failures/        # Failure classes
-│   │   │   ├── models/          # Domain models
-│   │   │   └── usecases/        # Use cases
+│   │   │   ├── models/          # Domain models (HomeImage)
+│   │   │   └── usecases/        # Use cases (HomeUsecase)
 │   │   ├── infrastructure/       # Infrastructure layer
-│   │   │   ├── repositories/    # Repository implementations
-│   │   │   └── settings/        # Specific configurations
-│   │   ├── utils/               # Feature utilities
+│   │   │   └── repositories/    # Repository implementations (HomeRepository)
+│   │   ├── external/            # External data layer
+│   │   │   ├── datasources/     # External API data sources (HomeDatasource)
+│   │   │   └── settings/        # API endpoints configuration
 │   │   └── presentation/        # Presentation layer
-│   │       ├── stores/          # State management stores
-│   │       ├── components/      # Reusable components
-│   │       ├── pages/           # Feature pages
-│   │       ├── mixins/          # Reusable mixins
-│   │       └── widgets/         # Specific widgets
+│   │       ├── stores/          # State management (HomeStore)
+│   │       ├── pages/           # UI pages
+│   │       └── widgets/         # Feature-specific widgets
 │   └── settings/                # Settings feature
 │       └── pages/               # Settings pages
 └── global/                      # Shared modules
     ├── app_core/               # Application core
+    │   ├── domain/             # Core domain models (Either)
     │   ├── failures/           # Global failure classes
-    │   └── store/              # State management system
-    ├── constants/              # Global constants
-    ├── l10n/                   # Internationalization
-    ├── network/                # HTTP client configuration
+    │   └── store/              # State management system (ValueStore, AppState)
+    ├── constants/              # Global constants (AppConfig)
+    ├── l10n/                   # Internationalization (Generated)
+    ├── network/                # HTTP client configuration (AppHttp)
     ├── services/               # Global services
-    │   └── app_storage/        # Local storage service
-    ├── settings/               # Global settings management
+    │   └── app_storage/        # Local storage service (AppStorage)
+    ├── settings/               # Global settings management (AppSettingsStore)
     ├── themes/                 # Application themes
-    ├── router/                 # Route configuration
-    └── utils/                  # Global utilities
+    ├── router/                 # Route configuration (GoRouter)
+    └── utils/                  # Global utilities (AppLogger, AppInfo)
 ```
 
 ## 🎯 Key Features
 
+### ✅ Complete Home Feature Implementation
+- **Dog Image API Integration**: Real API integration with Dog CEO API
+- **Clean Architecture**: Complete implementation across all layers
+- **Error Handling**: Comprehensive error handling at each layer
+- **State Management**: Custom ValueStore implementation with reactive UI
+- **Testing**: Unit tests for all layers with proper mocking
+
+### ✅ Custom State Management System
+- **ValueStore**: Custom state management extending ValueNotifier
+- **AppState**: Type-safe state pattern (Idle, Loading, Success, Error)
+- **Reactive UI**: Automatic UI updates with ListenableBuilder
+- **Error State Handling**: Structured error management with AppGenericFailure
+
 ### ✅ HTTP Client & Networking
 - **AppHttp**: Dio-based HTTP client with global configuration
-- Request/response interceptors
-- Automatic timeout configuration
-- Error handling and retries
+- **Environment-based configuration**: Different settings per environment
+- **Automatic timeout configuration**: Configurable request/response timeouts
+- **Error handling**: Network-specific error handling and transformations
 
 ### ✅ Local Storage
 - **AppStorage**: Unified storage interface using SharedPreferences
-- Type-safe storage operations
-- Centralized storage keys management
-- Easy data persistence
+- **Type-safe operations**: Strongly typed storage methods
+- **Centralized key management**: Organized storage keys in AppStorageKeys
+- **Easy data persistence**: Simple API for data storage and retrieval
 
 ### ✅ App Information
-- **AppInfo**: Package information utilities
-- Version management
-- Build number access
-- App name configuration
+- **AppInfo**: Package information utilities powered by package_info_plus
+- **Version management**: Access to app version and build numbers
+- **Environment info**: Runtime environment configuration access
+- **App metadata**: Centralized app information management
 
 ### ✅ Logging System
-- **AppLogger**: Centralized logging system
-- Environment-based log levels
-- Structured logging support
+- **AppLogger**: Centralized logging system using logger package
+- **Environment-based levels**: Different log levels per environment
+- **Structured logging**: Consistent log formatting and categorization
+- **Debug utilities**: Enhanced debugging capabilities
 
-### ✅ Custom State Management
-- **BaseStore**: Base class for stores with state pattern
-- **AppState**: Standardized states (Idle, Loading, Success, Error)
-- **Reactive UI**: Reactive interface based on ChangeNotifier
-
-### ✅ Internationalization (i18n)
-- Support for multiple languages (EN/PT)
-- Automatic translation code generation
-- Flexible configuration via l10n.yaml
-
-### ✅ Theme System
-- Light and dark themes
-- Automatic mode based on system
-- Persistent configuration
-- Consistent design system
-
-### ✅ Navigation
-- **GoRouter** for declarative navigation
-- Typed and organized routes
-- 404 error handling
-- Deep linking support
+### ✅ Clean Architecture Implementation
+- **Domain Layer**: Business logic, use cases, and domain models
+- **Infrastructure Layer**: Data access, repositories, and external APIs
+- **Presentation Layer**: UI components, state management, and user interactions
+- **External Layer**: API data sources and external service integrations
+- **Proper Dependency Inversion**: Interfaces and implementations properly separated
 
 ### ✅ Settings Management
-- **AppSettingsStore**: Global settings management
-- Theme mode persistence
-- Locale preferences
-- Type-safe settings operations
+- **AppSettingsStore**: Global settings using ValueStore pattern
+- **Theme persistence**: Automatic theme mode storage and retrieval
+- **Locale preferences**: Language selection with persistence
+- **Type-safe operations**: Strongly typed settings management
+- **Reactive updates**: Automatic UI updates when settings change
 
 ### ✅ Environment Configuration
-- Configuration using --dart-define-from-file (no external dependencies)
-- Multiple environments (Development, Staging, Production)
-- VS Code launch configurations for each environment
-- Type-safe and compile-time checked configuration
+- **Dart Define from File**: No external dependencies for environment config
+- **Multiple environments**: Development, Staging, Production configurations
+- **VS Code integration**: Launch configurations for each environment
+- **Type-safe access**: Compile-time checked configuration values
+- **AppConfig utility**: Centralized environment configuration access
 
-### ✅ Clean Architecture
-- Clean Architecture by features
-- Dependency inversion
-- Native testability
+### ✅ Either Pattern Implementation
+- **Functional Error Handling**: Custom Either<Left, Right> implementation
+- **Railway-oriented programming**: Clean error handling flow
+- **Type safety**: Compile-time error checking
+- **Fold operations**: Pattern matching for success/failure cases
 
 ## 🚀 Getting Started
 
@@ -181,21 +187,26 @@ flutter build web --dart-define-from-file=env/production.json
 ## 🏛️ Architecture Layers
 
 ### 📱 Presentation Layer
-- **Pages**: Application screens
-- **Widgets**: Visual components
-- **Stores**: State managers (MVVM ViewModels)
-- **Components**: Reusable components
+- **Pages**: Application screens and navigation destinations
+- **Widgets**: Custom UI components and feature-specific widgets
+- **Stores**: State management using ValueStore pattern (HomeStore)
+- **Components**: Reusable UI components across features
 
 ### 🎯 Domain Layer
-- **Models**: Domain entities
-- **UseCases**: Business rules
-- **Enums**: Enumerations
-- **Failures**: Error handling
+- **Models**: Domain entities and business objects (HomeImage)
+- **UseCases**: Business logic implementation (HomeUsecase)
+- **Either Pattern**: Functional error handling with Left/Right pattern
+- **Failures**: Domain-specific error definitions
 
 ### 🔧 Infrastructure Layer
-- **Repositories**: Data access implementations
-- **Settings**: Feature-specific settings
-- **Data Sources**: Data sources (API, Local, etc.)
+- **Repositories**: Data access abstractions and implementations (HomeRepository)
+- **Settings**: Feature-specific configuration and constants
+- **Data transformation**: Converting external data to domain models
+
+### 🌐 External Layer
+- **Data Sources**: External API integrations (HomeDatasource)
+- **HTTP Client**: Network communication setup and configuration
+- **API Endpoints**: External service endpoint definitions
 
 ## 📦 Main Dependencies
 
@@ -344,30 +355,38 @@ The project includes pre-configured launch configurations in `.vscode/launch.jso
 
 ## 🔄 State Management
 
-### BaseStore
+### ValueStore Pattern
 ```dart
-class ExampleStore extends BaseStore<ExampleData> {
+// Custom ValueStore implementation
+class HomeStore extends ValueStore<HomeImage> {
+  final HomeUsecase _homeUsecase;
+  
+  HomeStore(this._homeUsecase) : super(const IdleState());
+
   Future<void> loadData() async {
-    await execute(() async {
-      // Your logic here
-      return await repository.getData();
-    });
+    updateState(const LoadingState());
+    final result = await _homeUsecase.loadHomeData();
+
+    result.fold(
+      (failure) => updateState(ErrorState<HomeImage>(failure)),
+      (data) => updateState(SuccessState<HomeImage>(data)),
+    );
   }
 }
 ```
 
-### UI Usage
+### UI Integration
 ```dart
-class ExamplePage extends StatelessWidget {
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: exampleStore,
-      builder: (context, child) {
-        return exampleStore.state.when(
-          idle: () => Text('Idle'),
+    return ValueStoreBuilder<HomeStore, HomeImage>(
+      store: homeStore,
+      builder: (context, state) {
+        return state.when(
+          idle: () => Text('Ready to load'),
           loading: () => CircularProgressIndicator(),
-          success: (data) => Text('Data: $data'),
+          success: (homeImage) => Image.network(homeImage.url),
           error: (error) => Text('Error: ${error.message}'),
         );
       },
@@ -375,6 +394,12 @@ class ExamplePage extends StatelessWidget {
   }
 }
 ```
+
+### State Types
+- **IdleState**: Initial state before any operations
+- **LoadingState**: Operation in progress
+- **SuccessState<T>**: Operation completed successfully with data
+- **ErrorState**: Operation failed with error information
 
 ## ⚙️ Settings Management
 
@@ -474,81 +499,243 @@ context.pop();
 context.go(RoutePaths.home);
 ```
 
-## 🧪 Testing
+## 🧪 Testing Strategy
 
-### Test Structure
+### Test Coverage
+The project includes comprehensive testing for the Home feature:
+
 ```
 test/
-├── app/                    # Main app tests
-├── features/               # Feature tests
-│   ├── home/
-│   │   ├── domain/        # Domain layer tests
-│   │   ├── infrastructure/ # Infrastructure tests
-│   │   └── presentation/  # Presentation tests
-│   └── settings/          # Settings feature tests
-└── global/                # Global module tests
-    ├── services/          # Service tests
-    ├── utils/             # Utility tests
-    └── network/           # Network tests
+├── features/
+│   └── home/
+│       ├── domain/
+│       │   └── usecases/          # Use case unit tests
+│       ├── infrastructure/
+│       │   └── repositories/      # Repository unit tests
+│       ├── external/
+│       │   └── datasources/       # Data source unit tests
+│       └── presentation/
+│           └── stores/            # Store unit tests
+└── global/                        # Global module tests
 ```
 
 ### Running Tests
 ```bash
-# All tests
+# Run all tests
 flutter test
 
-# Specific feature tests
+# Run specific feature tests
 flutter test test/features/home/
 
-# Coverage report
+# Run with coverage
 flutter test --coverage
+lcov --summary coverage/lcov.info
+```
+
+### Test Examples
+```dart
+// Store testing with mocked dependencies
+void main() {
+  group('HomeStore Tests', () {
+    late HomeStore homeStore;
+    late MockHomeUsecase mockUsecase;
+    
+    setUp(() {
+      mockUsecase = MockHomeUsecase();
+      homeStore = HomeStore(mockUsecase);
+    });
+    
+    test('should update state to success when loadData succeeds', () async {
+      // Arrange
+      final homeImage = HomeImage(status: 'success', url: 'test-url');
+      when(mockUsecase.loadHomeData())
+          .thenAnswer((_) async => Right(homeImage));
+      
+      // Act
+      await homeStore.loadData();
+      
+      // Assert
+      expect(homeStore.state, isA<SuccessState<HomeImage>>());
+    });
+  });
+}
 ```
 
 ## 📝 Creating a New Feature
 
-1. **Create folder structure:**
+Follow the Home feature as a reference for implementing new features:
+
+### 1. Create Feature Structure
 ```bash
 lib/features/new_feature/
 ├── domain/
-│   ├── enums/
-│   ├── failures/
-│   ├── models/
-│   └── usecases/
+│   ├── models/              # Domain entities
+│   └── usecases/           # Business logic
 ├── infrastructure/
-│   ├── repositories/
-│   └── settings/
-├── utils/
+│   └── repositories/       # Data access layer
+├── external/
+│   ├── datasources/        # External API integration
+│   └── settings/           # API endpoints
 └── presentation/
-    ├── stores/
-    ├── components/
-    ├── pages/
-    ├── mixins/
-    └── widgets/
+    ├── stores/             # State management
+    ├── pages/              # UI screens
+    └── widgets/            # Feature widgets
 ```
 
-2. **Implement layers:**
-   - **Domain**: Models, UseCases, Failures, Enums
-   - **Infrastructure**: Repositories, Settings, Data Sources
-   - **Presentation**: Pages, Stores, Widgets, Components
-
-3. **Add routes:**
+### 2. Implement Domain Layer
 ```dart
-// route_paths.dart
+// Domain Model
+class FeatureModel {
+  final String id;
+  final String name;
+  
+  FeatureModel({required this.id, required this.name});
+  
+  factory FeatureModel.fromJson(Map<String, dynamic> json) {
+    return FeatureModel(
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+    );
+  }
+}
+
+// Use Case
+class FeatureUsecase {
+  final FeatureRepository repository;
+  FeatureUsecase(this.repository);
+  
+  Future<Either<AppGenericFailure, FeatureModel>> loadData() async {
+    try {
+      return await repository.loadData();
+    } catch (error) {
+      return Left(AppGenericFailure(
+        message: 'Failed to load feature data', 
+        error: error
+      ));
+    }
+  }
+}
+```
+
+### 3. Implement Infrastructure Layer
+```dart
+// Repository
+class FeatureRepository {
+  final FeatureDatasource datasource;
+  FeatureRepository(this.datasource);
+  
+  Future<Either<AppGenericFailure, FeatureModel>> loadData() async {
+    try {
+      final rawData = await datasource.fetchData();
+      final model = FeatureModel.fromJson(rawData);
+      return Right(model);
+    } on FormatException catch (e) {
+      return Left(AppGenericFailure(
+        message: 'Invalid data format', 
+        error: e
+      ));
+    } catch (error) {
+      return Left(AppGenericFailure(
+        message: 'Repository error', 
+        error: error
+      ));
+    }
+  }
+}
+```
+
+### 4. Implement External Layer
+```dart
+// Data Source
+class FeatureDatasource {
+  final AppHttp http;
+  FeatureDatasource(this.http);
+  
+  Future<Map<String, dynamic>> fetchData() async {
+    try {
+      final response = await http.get('/api/feature-endpoint');
+      if (response.data == null) {
+        throw Exception('Empty response received');
+      }
+      return response.data;
+    } on DioException catch (e) {
+      throw Exception('Network error: ${e.message}');
+    }
+  }
+}
+```
+
+### 5. Implement Presentation Layer
+```dart
+// Store
+class FeatureStore extends ValueStore<FeatureModel> {
+  final FeatureUsecase usecase;
+  FeatureStore(this.usecase) : super(const IdleState());
+  
+  Future<void> loadData() async {
+    updateState(const LoadingState());
+    final result = await usecase.loadData();
+    
+    result.fold(
+      (failure) => updateState(ErrorState<FeatureModel>(failure)),
+      (data) => updateState(SuccessState<FeatureModel>(data)),
+    );
+  }
+}
+
+// Page
+class FeaturePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ValueStoreBuilder<FeatureStore, FeatureModel>(
+      store: featureStore,
+      builder: (context, state) {
+        return state.when(
+          idle: () => Text('Ready'),
+          loading: () => CircularProgressIndicator(),
+          success: (data) => Text('Data: ${data.name}'),
+          error: (error) => Text('Error: ${error.message}'),
+        );
+      },
+    );
+  }
+}
+```
+
+### 6. Add Routes
+```dart
+// Add to route_paths.dart
 static const String newFeature = '/new-feature';
 
-// app_router.dart
+// Add to app_router.dart
 GoRoute(
   path: RoutePaths.newFeature,
-  builder: (context, state) => const NewFeaturePage(),
+  builder: (context, state) => const FeaturePage(),
 ),
 ```
 
-4. **Register dependencies (if using GetIt):**
+### 7. Register Dependencies
 ```dart
-// Add to your dependency injection setup
-getIt.registerLazySingleton<NewFeatureRepository>(
-  () => NewFeatureRepositoryImpl(),
-);
+// Add to dependency injection setup
+void setupFeatureDependencies() {
+  final getIt = GetIt.instance;
+  
+  getIt.registerLazySingleton<FeatureDatasource>(
+    () => FeatureDatasource(getIt<AppHttp>()),
+  );
+  
+  getIt.registerLazySingleton<FeatureRepository>(
+    () => FeatureRepository(getIt<FeatureDatasource>()),
+  );
+  
+  getIt.registerLazySingleton<FeatureUsecase>(
+    () => FeatureUsecase(getIt<FeatureRepository>()),
+  );
+  
+  getIt.registerLazySingleton<FeatureStore>(
+    () => FeatureStore(getIt<FeatureUsecase>()),
+  );
+}
 ```
 
 ## 🤝 Contributing
@@ -573,4 +760,4 @@ If you encounter any problems or have questions:
 
 ---
 
-**Developed with ❤️ using Flutter**
+**Developed by <a href="https://github.com/oiesc">Emanoel Aleixo</a> with ❤️ using Flutter**

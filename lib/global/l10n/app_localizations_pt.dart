@@ -65,6 +65,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get homeFeatureStructure => '• Estrutura Baseada em Features';
 
   @override
+  String get homeButtonMessage => 'Clique aqui...';
+
+  @override
   String get home => 'Início';
 
   @override
